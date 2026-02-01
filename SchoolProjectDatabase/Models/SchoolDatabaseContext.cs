@@ -80,18 +80,18 @@ public partial class SchoolDatabaseContext : DbContext
         {
             entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AB178143BF61");
 
-            entity.Property(e => e.StaffId).ValueGeneratedNever();
+            entity.Property(e => e.StaffId);
             entity.Property(e => e.FirstName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Role)
+            entity.Property(e => e.Occupation)
                 .HasMaxLength(30)
                 .IsUnicode(false);
         });
-
+        
         modelBuilder.Entity<Student>(entity =>
         {
             entity.HasKey(e => e.StudentId).HasName("PK__Student__32C52B99EEE5BFF1");

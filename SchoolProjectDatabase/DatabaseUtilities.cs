@@ -15,9 +15,6 @@ namespace SchoolProjectDatabase
             Console.Clear();
             Console.WriteLine("--- Lägg till Personal ---");
 
-            Console.Write("Ange ID (Siffra): ");
-            int id = int.Parse(Console.ReadLine());
-
             Console.Write("Förnamn: ");
             string firstName = Console.ReadLine();
 
@@ -29,10 +26,9 @@ namespace SchoolProjectDatabase
 
             var newStaff = new Staff
             {
-                StaffId = id,
                 FirstName = firstName,
                 LastName = lastName,
-                Role = role
+                Occupation = role
             };
 
             try
@@ -43,7 +39,12 @@ namespace SchoolProjectDatabase
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Fel vid sparning: " + ex.Message);
+                // DEN HÄR DELEN ÄR VIKTIG:
+                Console.WriteLine("Huvudfel: " + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("DETALJERAT FEL: " + ex.InnerException.Message);
+                }
             }
         }
 
@@ -98,30 +99,33 @@ namespace SchoolProjectDatabase
             Console.WriteLine("2. Fallande (Ö-A)");
             string sortOrder = Console.ReadLine();
 
-            var query = context.Students.AsQueryable();
+            var query = context.Students.ToList();
 
             if (sortCol == "1" && sortOrder == "1")
             {
-                query = query.OrderBy(s => s.FirstName);
+                query = query.OrderBy(s => s.FirstName).ToList();
+
             }    
             else if (sortCol == "1" && sortOrder == "2")
             {
-                query = query.OrderByDescending(s => s.FirstName);
+                query = query.OrderByDescending(s => s.FirstName).ToList();
             }               
             else if (sortCol == "2" && sortOrder == "1")
             {
-                query = query.OrderBy(s => s.LastName);
+                query = query.OrderBy(s => s.LastName).ToList();
             }    
             else if (sortCol == "2" && sortOrder == "2")
             {
-                query = query.OrderByDescending(s => s.LastName);
+                query = query.OrderByDescending(s => s.LastName).ToList();
             }
-               
+
+            var student = query.ToList();
+
 
             Console.WriteLine("\n--- Elevlista ---");
-            foreach (var student in query.ToList())
+            foreach (var s in student)
             {
-                Console.WriteLine($"{student.FirstName} {student.LastName} (ID: {student.StudentId})");
+                Console.WriteLine($"{s.FirstName} {s.LastName} (ID: {s.StudentId})");
             }
         }
     }
