@@ -39,7 +39,6 @@ namespace SchoolProjectDatabase
             }
             catch (Exception ex)
             {
-                // DEN HÄR DELEN ÄR VIKTIG:
                 Console.WriteLine("Huvudfel: " + ex.Message);
                 if (ex.InnerException != null)
                 {
